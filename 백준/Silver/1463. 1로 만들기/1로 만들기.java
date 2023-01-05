@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.Arrays;
 
 class Main {
 	static int dp[];
@@ -7,14 +6,13 @@ class Main {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         dp = new int[n+1];
-        Arrays.fill(dp, -1);
         System.out.println(solve(n)); 
     }
     
     private static int solve(int n) {
         if (n == 1) return 0;
         
-        if (dp[n] != -1) return dp[n];
+        if (dp[n] != 0) return dp[n];
         
         int result = solve(n-1) + 1;
         if (n % 3 == 0) {
