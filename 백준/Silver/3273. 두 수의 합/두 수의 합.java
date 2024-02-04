@@ -23,25 +23,19 @@ public class Main {
 		int x = Integer.parseInt(br.readLine()); // x : 자연수 (1<= x <= 2,000,000)
 		Arrays.sort(nums); // 오름차순 정렬
 		
-		int maxIdx = 0;
-		for (int i=n-1; i>=0; i--) { // x 보다 큰 수 제외하기
-			if (nums[i] <= x) {
-				maxIdx = i+1;
-				break;
-			}
-		}
-		
-		// ai + aj = x (1 ≤ i < j ≤ n)을 만족하는 (ai, aj)쌍의 수 구하기
+		int start = 0;
+		int end = nums.length - 1;
 		int cnt = 0;
-		for (int i=0; i<maxIdx-1; i++) { // i : 탐색 시작하는 인덱스. 첫번째 숫자
-			sum : for (int j=i+1; j<maxIdx; j++) { // j : 두번째 숫자
-				int sum = nums[i] + nums[j];
-				
-				if (sum == x) { // 합이 x가 되면 개수 더하기
-					cnt++;
-				} else if (sum > x) { // 합이 x가 넘으면 그 뒤에는 볼 필요 없으므로 멈춤
-					break sum;
-				}
+		while (start<end) {
+			int sum = nums[start] + nums[end];
+			if (sum == x) { // 두수의 합이 x가 맞으면 cnt++하고 다음으로 넘어가기
+				cnt++;
+				start++;
+				end--;
+			} else if (sum > x) { // 합이 x보다 크면
+				end--;
+			} else { // 합이 x보다 작으면
+				start++;
 			}
 		}
 		
