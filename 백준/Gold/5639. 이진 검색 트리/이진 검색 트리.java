@@ -44,11 +44,11 @@ public class Main {
 					tree[now].left = num;
 					
 				} else {
-					
+					// 현재 노드의 부모 노드 값이 입력값보다 작으면 계속 타고 올라감
 					while (tree[now].parent != -1 && tree[now].parent < num) {
 						now = tree[now].parent;
 					}
-					
+					// 오른쪽 노드 빈 거 찾을 때까지 다시 내려감
 					while (tree[now].right != 0) now = tree[now].right;
 					
 					tree[now].right = num;
