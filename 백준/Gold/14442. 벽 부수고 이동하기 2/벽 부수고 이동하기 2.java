@@ -40,11 +40,6 @@ public class Main {
         while (!queue.isEmpty()) {
             Point curr = queue.poll();
 
-            if (curr.r == n-1 && curr.c == m-1) {
-                System.out.println(visited[curr.r][curr.c][curr.wallCnt]);
-                return;
-            }
-
             for (int i=0; i<4; i++) {
                 int nr = curr.r + dr[i];
                 int nc = curr.c + dc[i];
@@ -63,7 +58,9 @@ public class Main {
         }
 
         int min = Integer.MAX_VALUE;
-        for (int i=0; i<=k; i++) min = Math.min(min, visited[n - 1][m - 1][i]);
-        System.out.println((min == 0) ? -1 : min);
+        for (int i=0; i<=k; i++) {
+            if (visited[n-1][m-1][i] != 0) min = Math.min(min, visited[n - 1][m - 1][i]);
+        }
+        System.out.println((min == Integer.MAX_VALUE) ? -1 : min);
     }
 }
