@@ -9,7 +9,7 @@ public class Main {
         int M = Integer.parseInt(st.nextToken());
 
         st = new StringTokenizer(br.readLine());
-        int[] arr = new int[N];
+        int[] arr = new int[N+1];
         for (int i=0; i<N; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
@@ -22,27 +22,12 @@ public class Main {
 
         int left = 0;
         int right = 0;
-        int now = arr[left];
+        int now = 0;
         int cnt = 0;
-        while (left <= right && right < N) {
-            if (now == M) {
-                cnt++;
-                right++;
-                if (right < N) now += arr[right];
-            } else if (now < M) {
-                right++;
-                if (right < N) now += arr[right];
-            }
-            else {
-                if (left == right) {
-                    right++;
-                    if (right < N) now += arr[right];
-                }
-                else {
-                    now -= arr[left];
-                    left++;
-                }
-            }
+        while (right <= N) {
+            if (now >= M) now -= arr[left++];
+            else now += arr[right++];
+            if (now == M) cnt++;
         }
 
         System.out.println(cnt);
