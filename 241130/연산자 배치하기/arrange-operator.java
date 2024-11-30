@@ -8,13 +8,13 @@ public class Main {
 
     static void operatorCombi(int cnt, boolean[] visited) {
         if (cnt == n-1) {
-            // 중복 체크
-            String operatorStr = "";
-            for (int i=0; i<n-1; i++) {
-                operatorStr += operatorCombiArr[i];
-            }
-            if (operatorSet.contains(operatorStr)) return;
-            operatorSet.add(operatorStr);
+            // // 중복 체크
+            // String operatorStr = "";
+            // for (int i=0; i<n-1; i++) {
+            //     operatorStr += operatorCombiArr[i];
+            // }
+            // if (operatorSet.contains(operatorStr)) return;
+            // operatorSet.add(operatorStr);
 
             int calcNum = calc();
             min = Math.min(min, calcNum);
