@@ -22,22 +22,6 @@ public class Main {
                 if (!checkDuplication[i]) nightArr[nightIdx++] = i;
             }
 
-            // 중복 체크
-            String checkDuplicationStr = "";
-            for (int i=0; i<checkDuplication.length; i++) {
-                if (checkDuplication[i]) checkDuplicationStr += "1";
-                else checkDuplicationStr += "0";
-            }
-            if (combiSet.contains(checkDuplicationStr)) return;
-            combiSet.add(checkDuplicationStr);
-
-            checkDuplicationStr = "";
-            for (int i=0; i<checkDuplication.length; i++) {
-                if (checkDuplication[i]) checkDuplicationStr += "0";
-                else checkDuplicationStr += "1";
-            }
-            combiSet.add(checkDuplicationStr);
-
             morning = 0;
             night = 0;
 
