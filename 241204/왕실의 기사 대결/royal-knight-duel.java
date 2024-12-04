@@ -177,8 +177,15 @@ public class Main {
 			initChessInKnight();
 			while (!moveKnights.isEmpty()) {
 				// 기사 이동
+                boolean[] visited = new boolean[N];
 				Knight currK = moveKnights.poll();
 				moveKnight(currK);
+
+                visited[currK.idx] = true;
+                for (int n=0; n<N; n++) {
+                    if (visited[n]) continue;
+                    moveKnight(knights[n]);
+                }
 				
 				// 대미지 계산
 				if (currK.idx == targetKnight) continue;
