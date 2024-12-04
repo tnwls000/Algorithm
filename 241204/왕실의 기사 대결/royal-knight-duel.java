@@ -69,9 +69,11 @@ public class Main {
 	}
 	
 	static boolean isAtWall(Knight k) {
-		if (k.r<0 || k.c<0 || k.r>=L || k.c>=L) return true;
-		for (int r=k.r; r<=k.r+k.h-1; r++) {
-			for (int c=k.c; c<=k.c+k.w-1; c++) {
+        int er = k.r + k.h - 1;
+        int ec = k.c + k.w - 1;
+		if (k.r<0 || k.c<0 || er>=L || ec>=L) return true;
+		for (int r=k.r; r<=er; r++) {
+			for (int c=k.c; c<=ec; c++) {
 				if (chess[r][c] == 2) return true;
 			}
 		}
