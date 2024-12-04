@@ -59,6 +59,14 @@ public class Main {
 			Arrays.fill(chessInKnight[l], -1);
 		}
 	}
+
+	static void removeKnightInChess(Knight k) {
+		for (int r=k.r; r<=k.r+k.h-1; r++) {
+			for (int c=k.c; c<=k.c+k.w-1; c++) {
+				if (chessInKnight[r][c] == k.idx) chessInKnight[r][c] = -1;
+			}
+		}
+	}
 	
 	static void markKnightInChess(Knight k) {
 		for (int r=k.r; r<=k.r+k.h-1; r++) {
@@ -99,6 +107,7 @@ public class Main {
 	}
 	
 	static void moveKnight(Knight k) {
+		removeKnightInChess(knights[k.idx]);
 		knights[k.idx] = k;
 		markKnightInChess(k);
 	}
@@ -174,23 +183,20 @@ public class Main {
 			if (moveKnights.isEmpty()) continue;
 			
 			// 기사 이동 및 대미지 계산
-			initChessInKnight();
 			while (!moveKnights.isEmpty()) {
 				// 기사 이동
-                boolean[] visited = new boolean[N];
 				Knight currK = moveKnights.poll();
 				moveKnight(currK);
 
-                visited[currK.idx] = true;
-                for (int n=0; n<N; n++) {
-                    if (visited[n]) continue;
-                    moveKnight(knights[n]);
-                }
-				
 				// 대미지 계산
 				if (currK.idx == targetKnight) continue;
 				getDamage(currK);
 			}
+
+			// System.out.println("chess");
+			// for (int i=0; i<L; i++) {
+			// 	System.out.println(Arrays.toString(chessInKnight[i]));
+			// }
 		}
 		
 		int result = 0;
