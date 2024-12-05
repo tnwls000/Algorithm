@@ -43,8 +43,8 @@ public class Main {
 		for (int i=1; i<4; i++) {
 			int nr = r + dr[i] + 1;
 			int nc = c + dc[i];
-			if (nc<=0 || nr>R || nc>C) return false;
-			if (nr>0 && forest[nr][nc] != 0) return false;
+			if (nr<0 || nc<0 || nr>=R+3 || nc>=C) return false;
+			if (forest[nr][nc] != 0) return false;
 		}
 		return true;
 	}
@@ -55,8 +55,8 @@ public class Main {
 			if (i==1) continue;
 			int nr = r + dr[i];
 			int nc = c + dc[i] - 1;
-			if (nc<=0 || nr>R || nc>C) return false;
-			if (nr>0 && forest[nr][nc] != 0) return false;
+			if (nr<0 || nc<0 || nr>=R+3 || nc>=C) return false;
+			if (forest[nr][nc] != 0) return false;
 		}
 		
 		// 남쪽 확인
@@ -69,8 +69,8 @@ public class Main {
 		for (int i=0; i<3; i++) {
 			int nr = r + dr[i];
 			int nc = c + dc[i] + 1;
-			if (nc<=0 || nr>R || nc>C) return false;
-			if (nr>0 && forest[nr][nc] != 0) return false;
+			if (nr<0 || nc<0 || nr>=R+3 || nc>=C) return false;
+			if (forest[nr][nc] != 0) return false;
 		}
 		
 		// 남쪽 확인
@@ -80,38 +80,33 @@ public class Main {
 	
 	static boolean isInForest(int r) {
 		for (int nr=r-1; nr<=r+1; nr++) {
-			if (nr <= 0) return false;
+			if (nr <= 2) return false;
 		}
 		return true;
 	}
 	
 	static int moveFairy(int r, int c) {
-		int rowMax = 0;
-		boolean[][] visited = new boolean[R+1][C+1];
+		int rowMax = r-2;
+		boolean[][] visited = new boolean[R+3][C];
 		Queue<Fairy> q = new LinkedList<>();
 		
-		visited[r][c] = true;
 		q.add(new Fairy(r,c));
 		while (!q.isEmpty()) {
 			Fairy f = q.poll();
-			rowMax = Math.max(rowMax, f.r);
+			rowMax = Math.max(rowMax, f.r-2);
 			
-			for (int i=1; i<4; i++) {
+			if (visited[f.r][f.c]) continue;
+			visited[f.r][f.c] = true;
+			
+			for (int i=0; i<4; i++) {
 				int nr = f.r + dr[i];
 				int nc = f.c + dc[i];
-				if (nc<=0 || nr>R || nc>C) continue;
+				if (nr<=2 || nc<0 || nr>=R+3 || nc>=C) continue;
 				if (forest[nr][nc] == 0) continue;
-				if (visited[nr][nc]) continue;
 				
-				if (forest[nr][nc] == forest[f.r][f.c]) {
-					visited[nr][nc] = true;
-					q.add(new Fairy(nr,nc));
-				}
+				if (forest[nr][nc] == forest[f.r][f.c]) q.add(new Fairy(nr,nc));
 				else {
-					if (isExit[f.r][f.c] == forest[f.r][f.c]) {
-						visited[nr][nc] = true;
-						q.add(new Fairy(nr,nc));
-					}
+					if (isExit[f.r][f.c] == forest[f.r][f.c]) q.add(new Fairy(nr,nc));
 				}
 			}
 		}
@@ -124,13 +119,13 @@ public class Main {
 		R = stoi(st.nextToken());
 		C = stoi(st.nextToken());
 		K = stoi(st.nextToken());
-		forest = new int[R+1][C+1];
-		isExit = new int[R+1][C+1];
+		forest = new int[R+3][C];
+		isExit = new int[R+3][C];
 		
 		for (int k=1; k<=K; k++) {
 			st = new StringTokenizer(br.readLine());
-			int r = -1;
-			int c = stoi(st.nextToken());
+			int r = 1;
+			int c = stoi(st.nextToken()) - 1;
 			int d = stoi(st.nextToken());
 			
 			while (true) {
@@ -163,8 +158,8 @@ public class Main {
 			// 4) 정령 이동
 			// 숲 밖에 있으면 초기화
 			if (!isInForest(r)) {
-				forest = new int[R+1][C+1];
-				isExit = new int[R+1][C+1];
+				forest = new int[R+3][C];
+				isExit = new int[R+3][C];
 				continue;
 			}
 			
