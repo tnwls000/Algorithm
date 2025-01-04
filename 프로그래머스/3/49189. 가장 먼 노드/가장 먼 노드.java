@@ -1,20 +1,13 @@
-import java.io.*;
 import java.util.*;
 
 class Solution {
-    static class Node implements Comparable<Node> {
-        int v, level;
-        Node(int v, int level) {
-            this.v = v;
-            this.level = level;
-        }
-        
-        @Override
-        public int compareTo(Node o) {
-            return this.level - o.level;
+    static class Node {
+        int v, lv;
+        Node(int v, int lv) {
+            this.v=v;
+            this.lv=lv;
         }
     }
-    
     public int solution(int n, int[][] edge) {
         List<Integer>[] list = new ArrayList[n+1];
         for (int i=1; i<=n; i++) {
@@ -22,35 +15,34 @@ class Solution {
         }
         
         for (int i=0; i<edge.length; i++) {
-            int start = edge[i][0];
-            int end = edge[i][1];
-            list[start].add(end);
-            list[end].add(start);
+            int a = edge[i][0];
+            int b = edge[i][1];
+            list[a].add(b);
+            list[b].add(a);
         }
         
-        int[] visited = new int[n+1];
-        Arrays.fill(visited, -1);
-        visited[1] = 0;
-        
         int max = -1;
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.add(new Node(1, 0));
-        while (!pq.isEmpty()) {
-            Node curr = pq.poll();
-            max = Math.max(max, curr.level);
+        int[] visited = new int[n+1];
+        visited[1] = 1;
+        Queue<Node> q = new LinkedList<>();
+        q.add(new Node(1,1));
+        while(!q.isEmpty()) {
+            Node curr = q.poll();
             
-            for (int next : list[curr.v]) {
-                if (visited[next] == -1) {
-                    visited[next] = visited[curr.v] + 1;
-                    pq.add(new Node(next, visited[curr.v] + 1));
-                }
+            for (int node : list[curr.v]) {
+                if (visited[node] != 0) continue;
+                
+                visited[node] = curr.lv + 1;
+                max = Math.max(max, visited[node]);
+                q.add(new Node(node, visited[node]));  
             }
         }
         
         int cnt = 0;
         for (int v : visited) {
-            if (v == max) cnt++;
+            if (max == v) cnt++;
         }
+        
         return cnt;
     }
 }
